@@ -18,7 +18,7 @@ router.post("/", async (req, res, next) => {
     }
 
     // case we don't know the conversation id, we create a new conversation
-    conversation = await Conversation.create({
+    const conversation = await Conversation.create({
       user1Id: senderId,
       user2Id: recipientId,
     });
@@ -30,7 +30,7 @@ router.post("/", async (req, res, next) => {
       text,
       conversationId: conversation.id,
     });
-    res.json({ message, sender });
+    return res.json({ message, sender });
   } catch (error) {
     next(error);
   }
