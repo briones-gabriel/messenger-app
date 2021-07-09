@@ -117,3 +117,23 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
     console.error(error);
   }
 };
+
+export const setConvoMessagesAsRead = (conversations, conversationId) => async (dispatch) => {
+  try {
+    await axios.post(`/api/messages/read/${conversationId}`);
+
+    const newConversations = conversations.map((convo) => {
+      if (convo.id === conversationId) {
+        const convoCopy = { ...convo };
+        convoCopy.unreadCount = 0;
+        return convoCopy;
+      } else {
+        return convo;
+      }
+    });
+
+    dispatch(gotConversations(newConversations));
+  } catch (error) {
+    console.log(error);
+  }
+}

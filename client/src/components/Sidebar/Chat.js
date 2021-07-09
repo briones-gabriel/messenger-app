@@ -17,10 +17,14 @@ const styles = {
       cursor: "grab",
     },
   },
+  unreadCount: {
+    marginRight: 12,
+  }
 };
 
 class Chat extends Component {
   handleClick = async (conversation) => {
+    await this.props.handleChatClick(conversation.id);
     await this.props.setActiveChat(conversation.otherUser.username);
   };
 
@@ -39,6 +43,7 @@ class Chat extends Component {
           sidebar={true}
         />
         <ChatContent conversation={this.props.conversation} />
+        <p className={classes.unreadCount}>{this.props.conversation.unreadCount}</p>
       </Box>
     );
   }
@@ -46,8 +51,8 @@ class Chat extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setActiveChat: (id) => {
-      dispatch(setActiveChat(id));
+    setActiveChat: (username) => {
+      dispatch(setActiveChat(username));
     },
   };
 };
