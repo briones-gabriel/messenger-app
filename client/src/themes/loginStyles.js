@@ -46,5 +46,5 @@ export const loginStyles = {
     },
     welcomeMessage: {
         fontWeight: "bold",
-    }
+    },
 };

@@ -56,7 +56,7 @@ const Login = (props) => {
             <Box height={1} maxWidth="100%">
               <Typography variant="h5" className={classes.welcomeMessage}>Welcome back!</Typography>
 
-              <Box marginBottom="2rem">
+              <Box marginBottom="2rem" width="30vw">
                 <FormControl margin="normal" required fullWidth>
                   <TextField aria-label="username" label="E-mail address" name="username" type="text"/>
                 </FormControl>

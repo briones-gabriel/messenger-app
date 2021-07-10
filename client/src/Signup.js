@@ -55,11 +55,11 @@ const Login = (props) => {
           </Box>
 
           <form onSubmit={handleRegister}>
-            <Box height={1} maxWidth="100%" marginX="8rem">
+            <Box height={1} maxWidth="100%">
               <Typography variant="h5" className={classes.welcomeMessage}>Create an account.</Typography>
 
-              <Box marginBottom="2rem">
-                <FormControl fullWidth margin="normal">
+              <Box marginBottom="2rem" width="30vw">
+                <FormControl margin="normal" fullWidth>
                   <TextField
                     aria-label="username"
                     label="Username"
