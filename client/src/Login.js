@@ -7,126 +7,79 @@ import {
   Typography,
   Button,
   FormControl,
-  TextField, Container, Paper, SvgIcon,
+  TextField, MuiThemeProvider,
 } from "@material-ui/core";
 import { login } from "./store/utils/thunkCreators";
-import {withStyles} from "@material-ui/core/styles";
-import BackgroundImage from "./assets/bg-img.png";
-import Bubble from "./assets/bubble.svg";
+import { withStyles } from "@material-ui/core/styles";
+import BubbleImage from "./assets/bubble.svg";
+import { theme } from "./themes/theme";
+import { loginStyles } from "./themes/loginStyles";
 
-const styles = {
-  background: {
-    backgroundImage: `url(${BackgroundImage})`,
-    display: "flex",
-    alignContent: "center",
-    justifyContent: "center",
-    height: "100vh",
-    width: "40vw",
-    backgroundSize: "cover",
-  },
-  imageTitle: {
-    color: "white",
-    marginTop: "2rem",
-  },
-  buttonContainer: {
-    display: "flex",
-    marginTop: "4rem"
-  },
-  button: {
-    width: "12rem",
-    height: "3.5rem",
-    fontFamily: "Open Sans",
-    color: "white",
-    backgroundColor: "#3A8DFF",
-    fontSize: 16,
-  },
-  registerText: {
-    alignItems: "center",
-    top: "3rem",
-    width: "60vw",
-    position: "absolute",
-    textAlign: "center",
-    display: "inline-flex",
-  },
-  register: {
-    color: "#3A8DFF",
-    backgroundColor: "white",
-    boxShadow: "0px 0px 12px 4px rgba(0,0,0,0.125)",
-    position: "fixed",
-    top: "2rem",
-    right: "6rem",
-  },
-  formControl: {
-    marginTop: "2rem",
-  },
-  welcomeMessage: {
-    fontWeight: "bold",
-  }
-};
+const styles = loginStyles;
 
 const Login = (props) => {
   const history = useHistory();
-  const { user, login, classes } = props;
+  const {user, login, classes} = props;
 
   const handleLogin = async (event) => {
     event.preventDefault();
     const username = event.target.username.value;
     const password = event.target.password.value;
 
-    await login({ username, password });
+    await login({username, password});
   };
 
   if (user.id) {
-    return <Redirect to="/home" />;
+    return <Redirect to="/home"/>;
   }
 
   return (
-    <Grid container justify="center" direction="row" alignItems="center" height="100vh">
-      <Grid className={classes.background} container>
-        <img src={Bubble} />
-        <Typography variant="h4" className={classes.imageTitle} align="center">
-          Converse with anyone in any language
-        </Typography>
-      </Grid>
-      <Box width="60vw">
-        <Grid justify="center" className={classes.registerText}>
-          <Typography>Don't have an account?</Typography>
-          <Button className={[classes.button, classes.register]} onClick={() => history.push("/register")}>
-            Create account
-          </Button>
+    <MuiThemeProvider theme={theme}>
+      <Grid container direction="row" height={1} width={1}>
+        <Grid item className={classes.background} container>
+          <img src={BubbleImage} alt="Bubble" />
+          <Typography variant="h4" className={classes.imageTitle} align="center">
+            Converse with anyone in any language
+          </Typography>
         </Grid>
-        <Grid container item justify="center">
+        <Box item justify="center" alignContent="center" alignItems="center" justifyContent="center" display="flex"
+             width="60vw">
+          <Box item justify="right" className={classes.floatingText}>
+            <Typography>Don't have an account?</Typography>
+            <Button
+              className={[classes.btn, classes.btnSecondary, classes.shadow]}
+              onClick={() => history.push("/register")}>Create account
+            </Button>
+          </Box>
+
           <form onSubmit={handleLogin}>
-            <Grid>
+            <Box height={1} maxWidth="100%">
               <Typography variant="h5" className={classes.welcomeMessage}>Welcome back!</Typography>
-              <Grid>
-                <FormControl fullWidth className={classes.formControl} required>
-                  <TextField
-                      aria-label="username"
-                      label="E-mail address"
-                      name="username"
-                      type="text"
-                  />
+
+              <Box marginBottom="2rem">
+                <FormControl margin="normal" required fullWidth>
+                  <TextField aria-label="username" label="E-mail address" name="username" type="text"/>
                 </FormControl>
-                <FormControl fullWidth className={classes.formControl} required>
-                  <TextField
-                      label="Password"
-                      aria-label="password"
-                      type="password"
-                      name="password"
-                  />
+                <FormControl margin="normal" required fullWidth>
+                  <TextField label="Password" aria-label="password" type="password" name="password"/>
                 </FormControl>
-              </Grid>
-              <Grid justify="center" className={classes.buttonContainer}>
-                <Button type="submit" variant="contained" color="primary" size="large" className={classes.button}>
+              </Box>
+
+              <Box width="100%" justifyContent="center" display="flex">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  className={[classes.btn, classes.btnPrimary]}>
                   Login
                 </Button>
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
           </form>
-        </Grid>
-      </Box>
-    </Grid>
+        </Box>
+      </Grid>
+    </MuiThemeProvider>
   );
 };
 
