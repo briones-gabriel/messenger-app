@@ -7,13 +7,66 @@ import {
   Typography,
   Button,
   FormControl,
-  TextField,
+  TextField, Container, Paper, SvgIcon,
 } from "@material-ui/core";
 import { login } from "./store/utils/thunkCreators";
+import {withStyles} from "@material-ui/core/styles";
+import BackgroundImage from "./assets/bg-img.png";
+import Bubble from "./assets/bubble.svg";
+
+const styles = {
+  background: {
+    backgroundImage: `url(${BackgroundImage})`,
+    display: "flex",
+    alignContent: "center",
+    justifyContent: "center",
+    height: "100vh",
+    width: "40vw",
+    backgroundSize: "cover",
+  },
+  imageTitle: {
+    color: "white",
+    marginTop: "2rem",
+  },
+  buttonContainer: {
+    display: "flex",
+    marginTop: "4rem"
+  },
+  button: {
+    width: "12rem",
+    height: "3.5rem",
+    fontFamily: "Open Sans",
+    color: "white",
+    backgroundColor: "#3A8DFF",
+    fontSize: 16,
+  },
+  registerText: {
+    alignItems: "center",
+    top: "3rem",
+    width: "60vw",
+    position: "absolute",
+    textAlign: "center",
+    display: "inline-flex",
+  },
+  register: {
+    color: "#3A8DFF",
+    backgroundColor: "white",
+    boxShadow: "0px 0px 12px 4px rgba(0,0,0,0.125)",
+    position: "fixed",
+    top: "2rem",
+    right: "6rem",
+  },
+  formControl: {
+    marginTop: "2rem",
+  },
+  welcomeMessage: {
+    fontWeight: "bold",
+  }
+};
 
 const Login = (props) => {
   const history = useHistory();
-  const { user, login } = props;
+  const { user, login, classes } = props;
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -28,39 +81,50 @@ const Login = (props) => {
   }
 
   return (
-    <Grid container justify="center">
-      <Box>
-        <Grid container item>
-          <Typography>Need to register?</Typography>
-          <Button onClick={() => history.push("/register")}>Register</Button>
+    <Grid container justify="center" direction="row" alignItems="center" height="100vh">
+      <Grid className={classes.background} container>
+        <img src={Bubble} />
+        <Typography variant="h4" className={classes.imageTitle} align="center">
+          Converse with anyone in any language
+        </Typography>
+      </Grid>
+      <Box width="60vw">
+        <Grid justify="center" className={classes.registerText}>
+          <Typography>Don't have an account?</Typography>
+          <Button className={[classes.button, classes.register]} onClick={() => history.push("/register")}>
+            Create account
+          </Button>
         </Grid>
-        <form onSubmit={handleLogin}>
-          <Grid>
+        <Grid container item justify="center">
+          <form onSubmit={handleLogin}>
             <Grid>
-              <FormControl margin="normal" required>
-                <TextField
-                  aria-label="username"
-                  label="Username"
-                  name="username"
-                  type="text"
-                />
-              </FormControl>
+              <Typography variant="h5" className={classes.welcomeMessage}>Welcome back!</Typography>
+              <Grid>
+                <FormControl fullWidth className={classes.formControl} required>
+                  <TextField
+                      aria-label="username"
+                      label="E-mail address"
+                      name="username"
+                      type="text"
+                  />
+                </FormControl>
+                <FormControl fullWidth className={classes.formControl} required>
+                  <TextField
+                      label="Password"
+                      aria-label="password"
+                      type="password"
+                      name="password"
+                  />
+                </FormControl>
+              </Grid>
+              <Grid justify="center" className={classes.buttonContainer}>
+                <Button type="submit" variant="contained" color="primary" size="large" className={classes.button}>
+                  Login
+                </Button>
+              </Grid>
             </Grid>
-            <FormControl margin="normal" required>
-              <TextField
-                label="password"
-                aria-label="password"
-                type="password"
-                name="password"
-              />
-            </FormControl>
-            <Grid>
-              <Button type="submit" variant="contained" size="large">
-                Login
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
+          </form>
+        </Grid>
       </Box>
     </Grid>
   );
@@ -80,4 +144,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));
