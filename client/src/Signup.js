@@ -38,18 +38,18 @@ const Login = (props) => {
   return (
     <MuiThemeProvider theme={theme}>
       <Grid container direction="row" height={1} width={1}>
-        <Grid item className={classes.background} container>
+        <Grid className={classes.background} container>
           <img src={BubbleImage} alt="Bubble"/>
           <Typography variant="h4" className={classes.imageTitle} align="center">
             Converse with anyone in any language
           </Typography>
         </Grid>
-        <Box item justify="center" alignContent="center" alignItems="center" justifyContent="center" display="flex"
+        <Box justify="center" alignContent="center" alignItems="center" justifyContent="center" display="flex"
              width="60vw">
-          <Box item justify="right" className={classes.floatingText}>
+          <Box justify="right" className={classes.floatingText}>
             <Typography>Already have an account?</Typography>
             <Button
-              className={[classes.btn, classes.btnSecondary, classes.shadow]}
+              className={`${classes.btn} ${classes.btnSecondary} ${classes.shadow}`}
               onClick={() => history.push("/login")}>Login
             </Button>
           </Box>
@@ -84,6 +84,7 @@ const Login = (props) => {
                     type="password"
                     inputProps={{minLength: 6}}
                     name="password"
+                    autoComplete="on"
                     required
                   />
                 </FormControl>
@@ -95,7 +96,7 @@ const Login = (props) => {
                   variant="contained"
                   color="primary"
                   size="large"
-                  className={[classes.btn, classes.btnPrimary]}>Create
+                  className={`${classes.btn} ${classes.btnPrimary}`}>Create
                 </Button>
               </Box>
             </Box>
