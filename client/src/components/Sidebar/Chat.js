@@ -18,7 +18,17 @@ const styles = {
     },
   },
   unreadCount: {
-    marginRight: 12,
+    padding: "0.6rem",
+    margin: "0px 12px 0px 0px",
+    borderRadius: "50%",
+    background: "linear-gradient(225deg, #6CC1FF 0%, #3A8DFF 100%)",
+    width: "0.5rem",
+    height: "0.5rem",
+    display: "flex",
+    alignItems: "center",
+    color: "white",
+    justifyContent: "center",
+    fontWeight: "bold"
   }
 };
 
@@ -43,7 +53,11 @@ class Chat extends Component {
           sidebar={true}
         />
         <ChatContent conversation={this.props.conversation} />
-        <p className={classes.unreadCount}>{this.props.conversation.unreadCount}</p>
+        {
+          this.props.conversation.unreadCount > 0 &&
+          <p className={classes.unreadCount}>{this.props.conversation.unreadCount}</p>
+        }
+
       </Box>
     );
   }

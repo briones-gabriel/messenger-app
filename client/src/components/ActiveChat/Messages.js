@@ -18,6 +18,7 @@ const Messages = (props) => {
               time={time}
               isLast={i === messages.length -1}
               readReceipt={readReceipt}
+              otherUser={otherUser}
           />
         ) : (
           <OtherUserBubble key={message.id} text={message.text} time={time} otherUser={otherUser} />
