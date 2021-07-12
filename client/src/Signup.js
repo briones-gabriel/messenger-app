@@ -39,10 +39,14 @@ const Login = (props) => {
     <MuiThemeProvider theme={theme}>
       <Grid container direction="row" height={1} width={1}>
         <Grid className={classes.background} container>
-          <img src={BubbleImage} alt="Bubble"/>
-          <Typography variant="h4" className={classes.imageTitle} align="center">
-            Converse with anyone in any language
-          </Typography>
+          <Grid item xs={12} justify="center" className={classes.flex} container>
+            <img src={BubbleImage} alt="Bubble"/>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h4" className={classes.imageTitle} align="center">
+              Converse with anyone in any language
+            </Typography>
+          </Grid>
         </Grid>
         <Box justify="center" alignContent="center" alignItems="center" justifyContent="center" display="flex"
              width="60vw">

@@ -18,7 +18,7 @@ export const loginStyles = {
     },
     imageTitle: {
         color: "white",
-        marginTop: "2rem",
+        margin: "2rem",
     },
     btn: {
         width: "12rem",
@@ -46,5 +46,8 @@ export const loginStyles = {
     },
     welcomeMessage: {
         fontWeight: "bold",
+    },
+    flex: {
+        display: "flex"
     },
 };
