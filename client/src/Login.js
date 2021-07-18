@@ -3,7 +3,6 @@ import { Redirect, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   Grid,
-  Box,
   Typography,
   Button,
   FormControl,
@@ -11,9 +10,10 @@ import {
 } from "@material-ui/core";
 import { login } from "./store/utils/thunkCreators";
 import { withStyles } from "@material-ui/core/styles";
-import BubbleImage from "./assets/bubble.svg";
 import { theme } from "./themes/theme";
 import { loginStyles } from "./themes/loginStyles";
+import WelcomeImage from "./components/Login/WelcomeImage";
+import InputForm from "./components/Login/InputForm";
 
 const styles = loginStyles;
 
@@ -36,53 +36,39 @@ const Login = (props) => {
   return (
     <MuiThemeProvider theme={theme}>
       <Grid container direction="row" height={1} width={1}>
-        <Grid className={classes.background} container>
-          <Grid item xs={12} justify="center" className={classes.flex} container>
-            <img src={BubbleImage} alt="Bubble"/>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h4" className={classes.imageTitle} align="center">
-              Converse with anyone in any language
-            </Typography>
-          </Grid>
-        </Grid>
+        <WelcomeImage classes={classes} />
 
-        <Box justify="center" alignContent="center" alignItems="center" justifyContent="center" display="flex"
-             width="60vw">
-          <Box justify="right" className={classes.floatingText}>
+        {/*Right part*/}
+        <Grid container className={`${classes.background} ${classes.rightSide}`} direction="column" justify="center">
+          <Grid className={classes.floatingText}>
             <Typography>Don't have an account?</Typography>
-            <Button
-              className={`${classes.btn} ${classes.btnSecondary} ${classes.shadow}`}
-              onClick={() => history.push("/register")}>Create account
+            <Button className={`${classes.btn} ${classes.btnSecondary} ${classes.shadow}`}
+                    onClick={() => history.push("/register")}>Create account
             </Button>
-          </Box>
+          </Grid>
 
+          {/*Welcome message*/}
+          <Typography variant="h5" className={classes.welcomeMessage}>Welcome back!</Typography>
+
+          {/*Form*/}
           <form onSubmit={handleLogin}>
-            <Box height={1} maxWidth="100%">
-              <Typography variant="h5" className={classes.welcomeMessage}>Welcome back!</Typography>
+            <Grid container spacing={4}>
+              <Grid item xs={12}>
+                {/*Username*/}
+                <InputForm ariaLabel="username" label="Username" name="username" type="text"/>
+                {/*Password*/}
+                <InputForm label="Password" ariaLabel="password" type="password" name="password" autoComplete="on"/>
+              </Grid>
 
-              <Box marginBottom="2rem" width="30vw">
-                <FormControl margin="normal" required fullWidth>
-                  <TextField aria-label="username" label="E-mail address" name="username" type="text"/>
-                </FormControl>
-                <FormControl margin="normal" required fullWidth>
-                  <TextField label="Password" aria-label="password" type="password" name="password" autoComplete="on" />
-                </FormControl>
-              </Box>
-
-              <Box width="100%" justifyContent="center" display="flex">
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  className={`${classes.btn} ${classes.btnPrimary}`}>
-                  Login
+              {/*Submit button*/}
+              <Grid container className={classes.flex} justify="center">
+                <Button type="submit" variant="contained" color="primary" size="large"
+                  className={`${classes.btn} ${classes.btnPrimary}`}>Login
                 </Button>
-              </Box>
-            </Box>
+              </Grid>
+            </Grid>
           </form>
-        </Box>
+        </Grid>
       </Grid>
     </MuiThemeProvider>
   );

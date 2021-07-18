@@ -8,13 +8,18 @@ export const loginStyles = {
         alignItems: "center"
     },
     background: {
-        backgroundImage: `url(${BackgroundImage})`,
         display: "flex",
         alignContent: "center",
         justifyContent: "center",
         height: "100vh",
+    },
+    leftSide: {
         width: "40vw",
+        backgroundImage: `url(${BackgroundImage})`,
         backgroundSize: "cover",
+    },
+    rightSide: {
+        width: "60vw",
     },
     imageTitle: {
         color: "white",
