@@ -120,7 +120,7 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
 
 export const setConvoMessagesAsRead = (conversations, conversationId) => async (dispatch) => {
   try {
-    await axios.post(`/api/messages/read/${conversationId}`);
+    await axios.put(`/api/messages/read/${conversationId}`);
 
     const newConversations = conversations.map((convo) => {
       if (convo.id === conversationId) {

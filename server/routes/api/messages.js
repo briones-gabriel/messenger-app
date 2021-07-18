@@ -44,7 +44,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.post("/read/:conversationId", async (req, res, next) => {
+router.put("/read/:conversationId", async (req, res, next) => {
   try {
     if (!req.user) {
       return res.sendStatus(401);
