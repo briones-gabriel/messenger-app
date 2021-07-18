@@ -124,9 +124,10 @@ export const setConvoMessagesAsRead = (conversations, conversationId) => async (
 
     const newConversations = conversations.map((convo) => {
       if (convo.id === conversationId) {
-        const convoCopy = { ...convo };
-        convoCopy.unreadCount = 0;
-        return convoCopy;
+        return {
+          ...convo,
+          unreadCount: 0
+        }
       } else {
         return convo;
       }
