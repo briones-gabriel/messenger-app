@@ -74,7 +74,7 @@ router.get("/", async (req, res, next) => {
       convoJSON.unreadCount = userUnreadCount;
 
       // set property for read receipt
-      convoJSON.readReceipt = otherUserUnreadCount > 0 ? false : true;
+      convoJSON.readReceipt = otherUserUnreadCount === 0;
       conversations[i] = convoJSON;
     }
 
