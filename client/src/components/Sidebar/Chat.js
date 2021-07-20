@@ -17,16 +17,32 @@ const styles = {
       cursor: "grab",
     },
   },
+  unreadBubble: {
+    padding: "0.5rem",
+    margin: "0px 12px 0px 0px",
+    borderRadius: "1rem",
+    background: "linear-gradient(225deg, #6CC1FF 0%, #3A8DFF 100%)",
+  },
+  unreadCount: {
+    margin: 0,
+    height: "0.5rem",
+    display: "flex",
+    alignItems: "center",
+    color: "white",
+    justifyContent: "center",
+    fontWeight: "bold"
+  }
 };
 
 const Chat = (props) => {
   const handleClick = async (conversation) => {
+    await props.handleChatClick(conversation.id);
     await props.setActiveChat(conversation.otherUser.username);
   };
 
-  const {classes} = props;
+  const { classes } = props;
   const otherUser = props.conversation.otherUser;
-
+  
   return (
     <Box
       onClick={() => handleClick(props.conversation)}
@@ -38,15 +54,21 @@ const Chat = (props) => {
         online={otherUser.online}
         sidebar={true}
       />
-      <ChatContent conversation={props.conversation}/>
+      <ChatContent conversation={props.conversation} />
+      {
+        this.props.conversation.unreadCount > 0 &&
+        <div className={classes.unreadBubble}>
+          <p className={classes.unreadCount}>{props.conversation.unreadCount}</p>
+        </div>
+      }
     </Box>
   );
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setActiveChat: (id) => {
-      dispatch(setActiveChat(id));
+    setActiveChat: (username) => {
+      dispatch(setActiveChat(username));
     },
   };
 };

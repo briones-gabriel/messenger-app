@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import {
@@ -8,102 +8,75 @@ import {
   Button,
   FormControl,
   TextField,
-  FormHelperText,
+  MuiThemeProvider,
 } from "@material-ui/core";
 import { register } from "./store/utils/thunkCreators";
+import { withStyles } from "@material-ui/core/styles";
+import { loginStyles } from "./themes/loginStyles";
+import { theme } from "./themes/theme";
+import BubbleImage from "./assets/bubble.svg";
+import WelcomeImage from "./components/Login/WelcomeImage";
+import InputForm from "./components/Login/InputForm";
+
+const styles = loginStyles;
 
 const Login = (props) => {
   const history = useHistory();
-  const { user, register } = props;
-  const [formErrorMessage, setFormErrorMessage] = useState({});
+  const {user, register, classes} = props;
 
   const handleRegister = async (event) => {
     event.preventDefault();
     const username = event.target.username.value;
     const email = event.target.email.value;
     const password = event.target.password.value;
-    const confirmPassword = event.target.confirmPassword.value;
 
-    if (password !== confirmPassword) {
-      setFormErrorMessage({ confirmPassword: "Passwords must match" });
-      return;
-    }
-
-    await register({ username, email, password });
+    await register({username, email, password});
   };
 
   if (user.id) {
-    return <Redirect to="/home" />;
+    return <Redirect to="/home"/>;
   }
 
   return (
-    <Grid container justify="center">
-      <Box>
-        <Grid container item>
-          <Typography>Need to log in?</Typography>
-          <Button onClick={() => history.push("/login")}>Login</Button>
-        </Grid>
-        <form onSubmit={handleRegister}>
-          <Grid>
-            <Grid>
-              <FormControl>
-                <TextField
-                  aria-label="username"
-                  label="Username"
-                  name="username"
-                  type="text"
-                  required
-                />
-              </FormControl>
-            </Grid>
-            <Grid>
-              <FormControl>
-                <TextField
-                  label="E-mail address"
-                  aria-label="e-mail address"
-                  type="email"
-                  name="email"
-                  required
-                />
-              </FormControl>
-            </Grid>
-            <Grid>
-              <FormControl error={!!formErrorMessage.confirmPassword}>
-                <TextField
-                  aria-label="password"
-                  label="Password"
-                  type="password"
-                  inputProps={{ minLength: 6 }}
-                  name="password"
-                  required
-                />
-                <FormHelperText>
-                  {formErrorMessage.confirmPassword}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid>
-              <FormControl error={!!formErrorMessage.confirmPassword}>
-                <TextField
-                  label="Confirm Password"
-                  aria-label="confirm password"
-                  type="password"
-                  inputProps={{ minLength: 6 }}
-                  name="confirmPassword"
-                  required
-                />
-                <FormHelperText>
-                  {formErrorMessage.confirmPassword}
-                </FormHelperText>
-              </FormControl>
-            </Grid>
-            <Button type="submit" variant="contained" size="large">
-              Create
+    <MuiThemeProvider theme={theme}>
+      <Grid container direction="row" height={1} width={1}>
+        <WelcomeImage classes={classes} />
+
+        {/*Right part*/}
+        <Grid container className={`${classes.background} ${classes.rightSide}`} direction="column" justify="center">
+          <Grid className={classes.floatingText}>
+            <Typography>Already have an account?</Typography>
+            <Button className={`${classes.btn} ${classes.btnSecondary} ${classes.shadow}`}
+                    onClick={() => history.push("/login")}>Login
             </Button>
           </Grid>
-        </form>
-      </Box>
-    </Grid>
+
+          {/*Create account message*/}
+          <Typography variant="h5" className={classes.welcomeMessage}>Create an account.</Typography>
+
+          {/*Form*/}
+          <form onSubmit={handleRegister}>
+            <Grid container spacing={4}>
+              <Grid item xs={12}>
+                {/*Username*/}
+                <InputForm ariaLabel="username" label="Username" name="username" type="text"/>
+                {/*E-mail*/}
+                <InputForm label="E-mail address" ariaLabel="e-mail address" type="email" name="email"/>
+                {/*Password*/}
+                <InputForm label="Password" ariaLabel="password" type="password" name="password" autoComplete="on" inputProps={{minLength: 6}}/>
+              </Grid>
+
+              {/*Submit button*/}
+              <Grid container className={classes.flex} justify="center">
+                <Button type="submit" variant="contained" color="primary" size="large"
+                        className={`${classes.btn} ${classes.btnPrimary}`}>Create
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Grid>
+      </Grid>
+    </MuiThemeProvider>
   );
 };
 
@@ -121,4 +94,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));
