@@ -48,7 +48,9 @@ router.get("/", async (req, res, next) => {
       ],
     });
 
-    conversations.forEach((convo, i) => {
+    for (let i = 0; i < conversations.length; i++) {
+
+      const convo = conversations[i];
       const convoJSON = convo.toJSON();
 
       // set a property "otherUser" so that frontend will have easier access
@@ -77,7 +79,7 @@ router.get("/", async (req, res, next) => {
       convoJSON.readReceipt = otherUserUnreadCount === 0;
 
       conversations[i] = convoJSON;
-    });
+    }
 
     res.json(conversations);
   } catch (error) {

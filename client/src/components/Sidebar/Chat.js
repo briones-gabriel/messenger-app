@@ -42,7 +42,7 @@ const Chat = (props) => {
 
   const { classes } = props;
   const otherUser = props.conversation.otherUser;
-  
+
   return (
     <Box
       onClick={() => handleClick(props.conversation)}
@@ -56,7 +56,7 @@ const Chat = (props) => {
       />
       <ChatContent conversation={props.conversation} />
       {
-        this.props.conversation.unreadCount > 0 &&
+        props.conversation.unreadCount > 0 &&
         <div className={classes.unreadBubble}>
           <p className={classes.unreadCount}>{props.conversation.unreadCount}</p>
         </div>
