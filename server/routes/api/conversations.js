@@ -22,7 +22,7 @@ router.get("/", async (req, res, next) => {
       attributes: ["id"],
       order: [[Message, "createdAt", "DESC"]],
       include: [
-        { model: Message, order: ["createdAt", "DESC"] },
+        { model: Message },
         {
           model: User,
           as: "user1",
@@ -76,6 +76,9 @@ router.get("/", async (req, res, next) => {
       // set property for read receipt
       convoJSON.readReceipt = otherUserUnreadCount === 0;
       conversations[i] = convoJSON;
+
+      // set the correct order for messages to be displayed
+      convoJSON.messages.reverse();
     }
 
     res.json(conversations);
