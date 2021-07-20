@@ -3,66 +3,74 @@ import { Redirect, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   Grid,
-  Box,
   Typography,
   Button,
   FormControl,
-  TextField,
+  TextField, MuiThemeProvider,
 } from "@material-ui/core";
 import { login } from "./store/utils/thunkCreators";
+import { withStyles } from "@material-ui/core/styles";
+import { theme } from "./themes/theme";
+import { loginStyles } from "./themes/loginStyles";
+import WelcomeImage from "./components/Login/WelcomeImage";
+import InputForm from "./components/Login/InputForm";
+
+const styles = loginStyles;
 
 const Login = (props) => {
   const history = useHistory();
-  const { user, login } = props;
+  const {user, login, classes} = props;
 
   const handleLogin = async (event) => {
     event.preventDefault();
     const username = event.target.username.value;
     const password = event.target.password.value;
 
-    await login({ username, password });
+    await login({username, password});
   };
 
   if (user.id) {
-    return <Redirect to="/home" />;
+    return <Redirect to="/home"/>;
   }
 
   return (
-    <Grid container justify="center">
-      <Box>
-        <Grid container item>
-          <Typography>Need to register?</Typography>
-          <Button onClick={() => history.push("/register")}>Register</Button>
-        </Grid>
-        <form onSubmit={handleLogin}>
-          <Grid>
-            <Grid>
-              <FormControl margin="normal" required>
-                <TextField
-                  aria-label="username"
-                  label="Username"
-                  name="username"
-                  type="text"
-                />
-              </FormControl>
-            </Grid>
-            <FormControl margin="normal" required>
-              <TextField
-                label="password"
-                aria-label="password"
-                type="password"
-                name="password"
-              />
-            </FormControl>
-            <Grid>
-              <Button type="submit" variant="contained" size="large">
-                Login
-              </Button>
-            </Grid>
+    <MuiThemeProvider theme={theme}>
+      <Grid container direction="row" height={1} width={1}>
+        <WelcomeImage classes={classes} />
+
+        {/*Right part*/}
+        <Grid container className={`${classes.background} ${classes.rightSide}`} direction="column" justify="center">
+          <Grid className={classes.floatingText}>
+            <Typography>Don't have an account?</Typography>
+            <Button className={`${classes.btn} ${classes.btnSecondary} ${classes.shadow}`}
+                    onClick={() => history.push("/register")}>Create account
+            </Button>
           </Grid>
-        </form>
-      </Box>
-    </Grid>
+
+          {/*Welcome message*/}
+          <Typography variant="h5" className={classes.welcomeMessage}>Welcome back!</Typography>
+
+          {/*Form*/}
+          <form onSubmit={handleLogin}>
+            <Grid container spacing={4}>
+              <Grid item xs={12}>
+                {/*Username*/}
+                <InputForm ariaLabel="username" label="Username" name="username" type="text"/>
+                {/*Password*/}
+                <InputForm label="Password" ariaLabel="password" type="password" name="password" autoComplete="on"/>
+              </Grid>
+
+              {/*Submit button*/}
+              <Grid container className={classes.flex} justify="center">
+                <Button type="submit" variant="contained" color="primary" size="large"
+                  className={`${classes.btn} ${classes.btnPrimary}`}>Login
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Grid>
+      </Grid>
+    </MuiThemeProvider>
   );
 };
 
@@ -80,4 +88,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));

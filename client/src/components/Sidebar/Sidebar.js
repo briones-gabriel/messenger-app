@@ -3,6 +3,7 @@ import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { Search, Chat, CurrentUser } from "./index.js";
+import { setConvoMessagesAsRead } from "../../store/utils/thunkCreators";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -22,7 +23,11 @@ const useStyles = makeStyles(() => ({
 const Sidebar = (props) => {
   const classes = useStyles();
   const conversations = props.conversations || [];
-  const { handleChange, searchTerm } = props;
+  const { handleChange, searchTerm, setConvoMessagesAsRead } = props;
+
+  const handleChatClick = (conversationId) => {
+    setConvoMessagesAsRead(conversations, conversationId);
+  }
 
   return (
     <Box className={classes.root}>
@@ -32,7 +37,7 @@ const Sidebar = (props) => {
       {conversations
         .filter((conversation) => conversation.otherUser.username.includes(searchTerm))
         .map((conversation) => {
-          return <Chat conversation={conversation} key={conversation.otherUser.username} />;
+          return <Chat conversation={conversation} key={conversation.otherUser.username} handleChatClick={handleChatClick}/>;
         })}
     </Box>
   );
@@ -44,4 +49,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Sidebar);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setConvoMessagesAsRead(conversations, conversationId) {
+      dispatch(setConvoMessagesAsRead(conversations, conversationId));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

@@ -120,3 +120,24 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
     console.error(error);
   }
 };
+
+export const setConvoMessagesAsRead = (conversations, conversationId) => async (dispatch) => {
+  try {
+    await axios.put(`/api/messages/read/${conversationId}`);
+
+    const newConversations = conversations.map((convo) => {
+      if (convo.id === conversationId) {
+        return {
+          ...convo,
+          unreadCount: 0
+        }
+      } else {
+        return convo;
+      }
+    });
+
+    dispatch(gotConversations(newConversations));
+  } catch (error) {
+    console.log(error);
+  }
+}
