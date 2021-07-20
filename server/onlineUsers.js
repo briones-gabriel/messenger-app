@@ -2,7 +2,7 @@ const onlineUsers = {};
 
 const addOnlineUser = (userId, socket) => {
   // Add the socket to the room dictated by it's user id
-  socket.join(userId);
+  socket.join(userId.toString());
 
   // If a user is connected with this user id, then add the socket to the list
   if (onlineUsers[userId]) {
