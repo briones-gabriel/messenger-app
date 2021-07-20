@@ -32,4 +32,27 @@ Conversation.findConversation = async function (user1Id, user2Id) {
   return conversation;
 };
 
+// retrieves all unread messages given a conversation id
+Conversation.getUnreadMessagesCount = async (conversationId, userId) => {
+  const userUnreadCount = await Message.count({
+    where: {
+      conversationId: conversationId,
+      senderId: {
+        [Op.not]: userId,
+      },
+      readStatus: false,
+    },
+  });
+
+  const otherUserUnreadCount = await Message.count({
+    where: {
+      conversationId: conversationId,
+      senderId: userId,
+      readStatus: false,
+    },
+  });
+
+  return [ userUnreadCount, otherUserUnreadCount ];
+};
+
 module.exports = Conversation;
