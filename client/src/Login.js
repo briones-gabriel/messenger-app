@@ -5,8 +5,7 @@ import {
   Grid,
   Typography,
   Button,
-  FormControl,
-  TextField, MuiThemeProvider,
+  MuiThemeProvider,
 } from "@material-ui/core";
 import { login } from "./store/utils/thunkCreators";
 import { withStyles } from "@material-ui/core/styles";
