@@ -53,7 +53,7 @@ const Header = (props) => {
     <Box className={classes.root}>
       <Box className={classes.content}>
         <Typography className={classes.username}>{username}</Typography>
-        <Box className={`${classes.statusDot} ${classes[online && "online"]}`}></Box>
+        <Box className={`${classes.statusDot} ${classes[online && "online"]}`} />
         <Typography className={classes.statusText}>{online ? "Online" : "Offline"}</Typography>
       </Box>
       <MoreHorizIcon classes={{ root: classes.ellipsis }} />
